@@ -1,9 +1,19 @@
+'''
+THIS FILE: 
+'''
+
+
 #3 subtypes: a hex, a node, and an edge
 #all will be inheritors of a superclass: board_spot
 #Board_spots will have the function b.connected() which will pass back a triple:
     #with a list of "connected" hexes, nodes, and edges, in order
 # Board_spots also have a b.get_loc() function, which will pass a double, with:
     #the coordinate location on the board, plus an angle if it is an edge. 
+
+import math
+import numpy as np
+import random as rand
+
 
 
 class board_spot:
@@ -30,8 +40,23 @@ class hex_spot(board_spot):
     def connected(self):
         row, col = self.loc
         hexes = hex_spot.hex_adj_hex(row, col)
-        
+        return hexes, [], []
        
+        
+    def placement(self,l=90):
+       '''convert row, col into an x,y(from the top) coordinate pixel location'''
+       row, col = self.loc
+       h = math.sqrt(3/4)* l
+       
+       
+       colstart = [400+3*h, 400+2*h ,400+h, 400+2*h, 400+3*h]
+       x = colstart[row] + col*(2*h)
+       
+       row1 = 50 + l
+       y = row1 + row*(3*l/2)
+       
+       return (x, y)
+      
     @staticmethod
     def hex_adj_hex(row, col):
         adj = []
@@ -99,17 +124,35 @@ class hex_spot(board_spot):
                    (row+1, 2*col), (row+1, 2*col+1), (row+1, 2*col+2)]
         return adj
     
+
+
+    
+    
 class node_spot(board_spot):
     def __init__(self, loc):
         self.loc = loc
-        self.settled = []
+        self.settled = [] #False
+        self.city = False
         
     def __repr__(self):
+        return 'Node', str(self.loc)
+    
+    
+    def settle_node(self, team):
+        assert(not(self.settled))
+        self.settled.append(team)
+        
+    def build_city(self):
+        assert(self.settled)
+        self.city = True
+    
         return f'A node located at {self.loc}'
     
-    @staticmethod
-    def node_adj_edges(loc):
-        
+    
+    def node_adj_nodes(self):
+        #TODO
+        pass
+        pass
 
     
 class edge_spot(board_spot):
@@ -120,7 +163,61 @@ class edge_spot(board_spot):
     def __repr__(self):
         return f'An edge located at {self.loc}'
     
-    
+###########Unified Board################################
         
-print(sorted(hex_spot.hex_adj_node(4,1))) 
+class board:
+    def __init__(self, mode = 'Classic'):
+
+        
+        self.make_hexes()
+        self.make_nodes()
+        self.settlement
+        
+        
+    def make_hexes(self):
+        '''Populates a self.hex_list array with hexes, with resources chosen 
+        from the resources list, same with numbers. 
+        TODO: Need to force requirement that 8s and 6s cant be adjacent'''
+        
+        resources = ['sheep', 'sheep', 'sheep', 'sheep',
+                     'wheat', 'wheat', 'wheat', 'wheat',
+                     'wood', 'wood', 'wood', 'wood', 
+                     'stone', 'stone', 'stone', 
+                     'brick', 'brick', 'brick', 
+                     'desert']
+        
+        numbers = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12]
+        rand.shuffle(resources)
+        rand.shuffle(numbers)
+        
+        self.hex_list = np.ndarray(shape=(5,5), dtype = board_spot)
+        
+        
+        
+        colnum = [3,4,5,4,3]
+        for row in range(5):
+            for col in range(colnum[row]):
+
+                #pop off a resource from the list to add
+                res = resources.pop()
+                
+                #only add a number if not desert
+                if(res != 'desert'):
+                    num = numbers.pop()
+                else:
+                    num = 0
+                
+                #make the hex, add to array
+                self.hex_list[row][col] = hex_spot((row,col), res,num)
+        
+    def make_nodes(self):
+        self.node_list = np.ndarray(shape=(6,11), dtype=board_spot)
+        colnum = [7,9,11,11,9,7]
+        
+        for row in range(6):
+            for col in range(colnum[row]):
+                self.node_list[row][col] = node_spot((row,col))
+                
+        
+        
         

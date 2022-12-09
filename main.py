@@ -9,6 +9,9 @@ from tkinter import *
 import numpy.random as rand
 
 from time import sleep
+import math
+import drawFunctions as draw
+import board as bd
 ####################################
 # Programmed in event-based paradigm; 
 # timer_fired updates at 10hz (one refresh every event.timerDelay ms)
@@ -33,15 +36,16 @@ from time import sleep
 
 def init(data):
     '''Initializes data struct'''
-
     
+    #the fundamental hex edge length
+    data.l = 90
+    data.board = bd.board()
+
     pass
 
-##############################################################################
+########Draw board Fns############################################################
 
-def draw_board_area(canvas, data):
-    canvas.create_rectangle(400,50, 1200, 850)
-    pass
+
 
 
 
@@ -62,7 +66,7 @@ def timer_fired(data):
     pass
 
 def redraw_all(canvas, data):
-    draw_board_area(canvas, data)
+    draw.draw_board_area(canvas, data)
     pass
         
 
