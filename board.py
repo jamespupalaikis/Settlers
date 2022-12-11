@@ -153,8 +153,10 @@ class node_spot(board_spot):
     def node_adj_nodes(self):
         #TODO
         pass
-        pass
 
+    def node_adj_edges(self):
+        #TODO
+        pass
     
 class edge_spot(board_spot):
     def __init__(self, loc):
