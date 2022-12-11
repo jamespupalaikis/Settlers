@@ -40,7 +40,8 @@ class hex_spot(board_spot):
     def connected(self):
         row, col = self.loc
         hexes = hex_spot.hex_adj_hex(row, col)
-        return hexes, [], []
+        nodes = hex_spot.hex_adj_node(row, col)
+        return hexes, nodes, []
        
         
     def placement(self,l=90):
@@ -171,7 +172,9 @@ class board:
         
         self.make_hexes()
         self.make_nodes()
-        self.settlement
+        self.settlements = set()
+        self.robber = self.desert
+        
         
         
     def make_hexes(self):
@@ -186,10 +189,10 @@ class board:
                      'brick', 'brick', 'brick', 
                      'desert']
         
-        numbers = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12]
+        numbers = [[2,3,3,4,4,5,5,6,6,10,10,11,11,12],[8,8,9,9],17, 13]
         rand.shuffle(resources)
-        rand.shuffle(numbers)
-        
+
+        excluded = []
         self.hex_list = np.ndarray(shape=(5,5), dtype = board_spot)
         
         
@@ -203,9 +206,41 @@ class board:
                 
                 #only add a number if not desert
                 if(res != 'desert'):
-                    num = numbers.pop()
+                    
+                    if(numbers[2] == 0):
+                        num = (numbers[0]+numbers[1]).pop()
+                        
+                    #check for adjacent reds
+                    elif((row,col) in excluded):
+                        roll = rand.randint(0,numbers[3])
+                        num = numbers[0].pop(roll)
+                        
+                        
+                        numbers[3] -= 1
+                        
+                    else:#not excluded
+                        if(numbers[3]+1==numbers[2]):
+                            num = numbers[1].pop()
+                            excluded.extend( hex_spot.hex_adj_hex(row,col))
+                            
+                        else:
+                            roll = rand.randint(0,numbers[2])
+                            if(roll <= numbers[3]):#not red 
+                            
+                                #decrement non-red count
+                                numbers[3] -=1
+                                
+                                num = numbers[0].pop(roll)
+                                
+                                
+                            else:#is a red number
+                                num = numbers[1].pop(roll-numbers[3]-1)
+                                excluded.extend( hex_spot.hex_adj_hex(row,col))
+                    
+                    numbers[2] -= 1#decrement total count
                 else:
                     num = 0
+                    self.desert = (row,col)
                 
                 #make the hex, add to array
                 self.hex_list[row][col] = hex_spot((row,col), res,num)
