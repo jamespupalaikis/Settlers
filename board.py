@@ -45,7 +45,7 @@ class hex_spot(board_spot):
        
         
     def placement(self,l=90):
-       '''convert row, col into an x,y(from the top) coordinate pixel location'''
+       
        row, col = self.loc
        h = math.sqrt(3/4)* l
        
@@ -149,6 +149,9 @@ class node_spot(board_spot):
     
         return f'A node located at {self.loc}'
     
+    def placement(self):
+        '''convert row, col into an x,y(from the top) coordinate pixel location'''
+        pass
     
     def node_adj_nodes(self):
         #TODO

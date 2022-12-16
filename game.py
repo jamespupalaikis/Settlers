@@ -19,10 +19,15 @@ class classic_game:
         self.players = players
         self.playernum = playernum
         
+        rolls = self.get_player_order()
+        self.order = [i[1] for i in rolls]
+        
+        
+        
+        
         
     def get_player_order(self):
         self.turn = 0
-        self.order = []
         rolls = []
         i = 0
         while(i < self.playernum):
@@ -31,12 +36,11 @@ class classic_game:
             rolls.append(r1+r2,self.players[i], r1, r2) 
             i += 1
             
-        rolls.sort()
-        
-    
+        rolls.sort(reverse=True)
+        return rolls
     
     def play_turn(self, player):
-        
-        
-        
+        pass
+    
+
 
