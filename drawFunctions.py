@@ -61,4 +61,4 @@ def draw_hex(_hex, canvas, data):
     canvas.create_text(x,y,text=_hex.number, fill=numDict[_hex.number], 
                        font="bold")
     
-print(bd.hex_spot.hex_adj_hex(1, 1))
+#print(bd.hex_spot.hex_adj_hex(1, 1))

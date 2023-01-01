@@ -56,7 +56,7 @@ class hex_spot(board_spot):
        row1 = 50 + l
        y = row1 + row*(3*l/2)
        
-       return (x, y)
+       return (x+12, y+37)
       
     @staticmethod
     def hex_adj_hex(row, col):
@@ -154,8 +154,51 @@ class node_spot(board_spot):
         pass
     
     def node_adj_nodes(self):
-        #TODO
-        pass
+        row, col = self.loc
+        colnum = [6,8,10,10,8,6]
+        adj = []
+        
+        
+        if(col != 0):
+            adj.append((row, col-1))
+        if(col < colnum[row]):
+            adj.append((row, col+1))
+        
+        def isodd(n):
+            return n%2 == 1
+        
+        
+        if(row == 0):
+            if(not isodd(col)):
+                adj.append((2, col+1))
+        elif(row == 1):
+            if(isodd(col)):
+                adj.append((1, col-1))
+            else:
+                adj.append((3, col+ 1))
+        elif(row == 2):
+            if(isodd(col)):
+                adj.append((1, col-1))
+            else:
+                adj.append(3, col)
+        elif(row == 3):
+            if(isodd(col)):
+                adj.append((4, col-1))
+            else:
+                adj.append(2, col)
+        elif(row == 4):
+            if(isodd(col)):
+                adj.append((5, col-1))
+            else:
+                adj.append((3, col+1))
+        elif(row == 5):
+            if(not isodd(col)):
+                adj.append(4 ,col+1)
+        return adj
+    
+    
+            
+                
 
     def node_adj_edges(self):
         #TODO
@@ -168,6 +211,10 @@ class edge_spot(board_spot):
         
     def __repr__(self):
         return f'An edge located at {self.loc}'
+    
+    @staticmethod
+    def edge_adj_edges(loc):
+        pass
     
 ###########Unified Board################################
         
@@ -184,71 +231,81 @@ class board:
         
     def make_hexes(self):
         '''Populates a self.hex_list array with hexes, with resources chosen 
-        from the resources list, same with numbers. 
-        TODO: Need to force requirement that 8s and 6s cant be adjacent'''
-        
-        resources = ['sheep', 'sheep', 'sheep', 'sheep',
-                     'wheat', 'wheat', 'wheat', 'wheat',
-                     'wood', 'wood', 'wood', 'wood', 
-                     'stone', 'stone', 'stone', 
-                     'brick', 'brick', 'brick', 
-                     'desert']
-        
-        numbers = [[2,3,3,4,4,5,5,6,6,10,10,11,11,12],[8,8,9,9],17, 13]
-        rand.shuffle(resources)
-
-        excluded = []
-        self.hex_list = np.ndarray(shape=(5,5), dtype = board_spot)
-        
-        
-        
-        colnum = [3,4,5,4,3]
-        for row in range(5):
-            for col in range(colnum[row]):
-
-                #pop off a resource from the list to add
-                res = resources.pop()
-                
-                #only add a number if not desert
-                if(res != 'desert'):
+        from the resources list, same with numbers. '''
+        redo = True
+        while( redo):
+            redo = False
+            resources = ['sheep', 'sheep', 'sheep', 'sheep',
+                         'wheat', 'wheat', 'wheat', 'wheat',
+                         'wood', 'wood', 'wood', 'wood', 
+                         'stone', 'stone', 'stone', 
+                         'brick', 'brick', 'brick', 
+                         'desert']
+            
+            numbers = [[2,3,3,4,4,5,5,9,9,10,10,11,11,12],[8,8,6,6],17, 13]
+            rand.shuffle(resources)
+    
+            excluded = []
+            self.hex_list = np.ndarray(shape=(5,5), dtype = board_spot)
+            
+            
+            
+            colnum = [3,4,5,4,3]
+    
+            for row in range(5):
+                for col in range(colnum[row]):
+    
+                    #pop off a resource from the list to add
+                    res = resources.pop()
                     
-                    if(numbers[2] == 0):
-                        num = (numbers[0]+numbers[1]).pop()
+                    #only add a number if not desert
+                    if(res != 'desert'):
                         
-                    #check for adjacent reds
-                    elif((row,col) in excluded):
-                        roll = rand.randint(0,numbers[3])
-                        num = numbers[0].pop(roll)
-                        
-                        
-                        numbers[3] -= 1
-                        
-                    else:#not excluded
-                        if(numbers[3]+1==numbers[2]):
-                            num = numbers[1].pop()
-                            excluded.extend( hex_spot.hex_adj_hex(row,col))
+                        if(numbers[2] == 0):
+                            num = (numbers[0]+numbers[1]).pop()
                             
-                        else:
-                            roll = rand.randint(0,numbers[2])
-                            if(roll <= numbers[3]):#not red 
+                        #check for adjacent reds
+                        elif((row,col) in excluded):
+
+                            if(numbers[3] <= 0):
+                                redo = True
+                                break
+                            #print((row, col), excluded)
                             
-                                #decrement non-red count
-                                numbers[3] -=1
-                                
-                                num = numbers[0].pop(roll)
-                                
-                                
-                            else:#is a red number
-                                num = numbers[1].pop(roll-numbers[3]-1)
+                            roll = rand.randint(0,numbers[3])
+                          
+                            num = numbers[0].pop(roll)
+                            #print(roll, num)
+                            
+                            numbers[3] -= 1
+                            
+                        else:#not excluded
+                            
+                            if(numbers[3]+1==numbers[2]):
+                                num = numbers[1].pop()
                                 excluded.extend( hex_spot.hex_adj_hex(row,col))
+                                
+                            else:
+                                roll = rand.randint(0,numbers[2])
+                                if(roll <= numbers[3]):#not red 
+                                
+                                    #decrement non-red count
+                                    numbers[3] -=1
+                                    
+                                    num = numbers[0].pop(roll)
+                                    
+                                    
+                                else:#is a red number
+                                    num = numbers[1].pop(roll-numbers[3]-1)
+                                    excluded.extend( hex_spot.hex_adj_hex(row,col))
+                                    #print(f'excluded updated {excluded}')
+                        numbers[2] -= 1#decrement total count
+                    else:
+                        num = 0
+                        self.desert = (row,col)
                     
-                    numbers[2] -= 1#decrement total count
-                else:
-                    num = 0
-                    self.desert = (row,col)
-                
-                #make the hex, add to array
-                self.hex_list[row][col] = hex_spot((row,col), res,num)
+                    #make the hex, add to array
+                    self.hex_list[row][col] = hex_spot((row,col), res,num)
         
     def make_nodes(self):
         self.node_list = np.ndarray(shape=(6,11), dtype=board_spot)
@@ -258,6 +315,5 @@ class board:
             for col in range(colnum[row]):
                 self.node_list[row][col] = node_spot((row,col))
                 
-        
         
         
