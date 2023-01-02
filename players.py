@@ -42,11 +42,18 @@ class player:
             
         pass
     
-    def can_build_road(self, spot):
+    def can_build_road(self, spot, board):
+        #resource check
         if(not(self.hand[2]  and self.hand[4])):
             return False
+        
         #check for an adjacent friendly road
+        
         #check that there are no other roads here
+        check = board.roads.check_road(spot)
+        ifcheck == -1):
+            return False
+            
         #cannot have a road adj to an enemy settled node
         
         pass

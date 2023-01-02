@@ -13,6 +13,7 @@ THIS FILE:
 import math
 import numpy as np
 import random as rand
+from collections import defaultdict
 
 global l 
 l = 90 
@@ -252,17 +253,62 @@ class node_spot(board_spot):
         #TODO
         pass
     
-class edge_spot(board_spot):
-    def __init__(self, loc):
-        self.loc = loc
-        self.road = []
+class edges():
+    #This will hold ALL the roads in the game. 
+    #Why? well in my mind at least, regarding 
+    #checking if a road is legal, how long each road chain is, and whether a 
+    #node is settleable, the math works out easier if the roads are just 
+    #defined as a pair of nodes that the road exists between. 
+    #in this case, we'll need to carefully control functions on the road 
+    #dict/array, to avoid the parity cases from flipping the nodes in a pair.
+    def __init__(self):
+        
+
+
+        def default():
+            return defaultdict(lambda:None)
+        self.roads = defaultdict(default)
+        self.l = []
         
     def __repr__(self):
-        return f'An edge located at {self.loc}'
+        return f'The edges object'
     
     @staticmethod
-    def edge_adj_edges(loc):
-        pass
+    def order(coords):#comes in as ((row1,col1), (row2,col2))
+        a,b = coords
+        if(a > b):
+            return (b,a)
+        return coords
+        
+    def check_road(self,coords):
+        coords = self.order(coords)
+        check = self.roads[coords[0]][coords[1]]
+        if(check is None):
+            return -1
+        
+        return check
+        
+    def add_road(self, coords, team):
+        coords = self.order(coords)
+        d1 = self.roads[coords[0]]
+        d1[coords[1]] = team
+        self.l.append(coords)
+        return coords
+        
+    def remove_road(self, coords):
+        coords = self.order(coords)
+        d1 = self.roads[coords[0]]
+        self.l.remove(coords)
+        del d1[coords[1]]
+    
+    @staticmethod    
+    def placement( coords):
+
+        p1 = node_spot.placement(coords[0][0], coords[0][1])
+        p2 = node_spot.placement(coords[1][0], coords[1][1])
+        return p1,p2
+    
+        
     
 ###########Unified Board################################
         
@@ -272,6 +318,8 @@ class board:
         
         self.make_hexes()
         self.make_nodes()
+        self.roads = edges()
+        
         self.settlements = set()
         self.robber = self.desert
         
@@ -364,4 +412,13 @@ class board:
                 self.node_list[row][col] = node_spot((row,col))
                 
         
-        
+
+a = edges()
+a.add_road(((1,1),(1,3)), 3)
+a.add_road(((1,1),(1,2)), 2)
+print(a.l)
+a.remove_road(((1,1),(1,3)))
+print(a.l)
+
+print(a.roads[(1,1)].keys())
+print(a.check_road(((1,1),(1,3))))
