@@ -38,7 +38,7 @@ def init(data):
     '''Initializes data struct'''
     
     #the fundamental hex edge length
-    data.l = 90
+    # data.l = 90
     data.board = bd.board()
 
     pass
@@ -66,7 +66,19 @@ def timer_fired(data):
     pass
 
 def redraw_all(canvas, data):
+    
+    x,y = bd.node_spot.placement(5, 6)
+    
+    h = 90 * math.sqrt(3/4) 
+    r = 10
+
+
+
+
+    
     draw.draw_board_area(canvas, data)
+    
+    canvas.create_oval(x-r, y-r, x+r, y+r, fill = 'red')
     pass
         
 

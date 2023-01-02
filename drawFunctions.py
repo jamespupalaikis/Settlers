@@ -37,8 +37,10 @@ def draw_board_area(canvas, data):
 
 def draw_hex(_hex, canvas, data):
     #loc is the row, col coordinate format
-    l = data.l
-    x, y = _hex.placement()
+    l = _hex.l
+    loc = _hex.loc
+    
+    x, y = _hex.placement(loc[0],loc[1])
     h = math.sqrt(3/4)* l
     
     a = (x, y-l)
@@ -60,5 +62,10 @@ def draw_hex(_hex, canvas, data):
     numDict[8] = 'red'
     canvas.create_text(x,y,text=_hex.number, fill=numDict[_hex.number], 
                        font="bold")
+    #canvas.create_text(x, y+20, text=f"(,{x})")
+    
+    
+def draw_node(_node, canvas, data):
+    pass
     
 #print(bd.hex_spot.hex_adj_hex(1, 1))

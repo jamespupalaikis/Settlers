@@ -14,6 +14,8 @@ import math
 import numpy as np
 import random as rand
 
+global l 
+l = 90 
 
 
 class board_spot:
@@ -33,6 +35,7 @@ class hex_spot(board_spot):
         self.loc = loc
         self.resource = resource
         self.number = number
+        self.l = l
         
     def __repr__(self):
         return f'A {self.resource} hex, number {self.number}'
@@ -43,10 +46,10 @@ class hex_spot(board_spot):
         nodes = hex_spot.hex_adj_node(row, col)
         return hexes, nodes, []
        
-        
-    def placement(self,l=90):
-       
-       row, col = self.loc
+    @staticmethod
+    def placement(r,c):
+
+       row, col = r,c
        h = math.sqrt(3/4)* l
        
        
@@ -134,6 +137,7 @@ class node_spot(board_spot):
         self.loc = loc
         self.settled = [] #False
         self.city = False
+        self.l = l
         
     def __repr__(self):
         return 'Node', str(self.loc)
@@ -149,8 +153,52 @@ class node_spot(board_spot):
     
         return f'A node located at {self.loc}'
     
-    def placement(self):
+    
+    @staticmethod
+    def placement(row, col):
         '''convert row, col into an x,y(from the top) coordinate pixel location'''
+
+        
+        h = math.sqrt(3/4) * l
+        
+        def get_init(row):
+            colstart = [400+3*h, 400+2*h ,400+h, 400+2*h, 400+3*h]
+            row1 = 50 + l
+            y = row1 + row*(3*l/2)
+            return colstart[row]+12, y+37
+        
+        def above(row, col):
+            x0,y0 = get_init(row)
+            if(col %2 == 0):#is even
+                eveninit = (x0-h, y0-(l/2))
+                return (eveninit[0]+ h*col, eveninit[1] )
+                
+            else:#is odd
+                oddinit = (x0, y0-l)
+                return (oddinit[0]+ h*(col-1), oddinit[1] )
+            
+        def below(row, col):
+            x0,y0 = get_init(row)
+            if(col %2 == 0):#is even
+                eveninit = (x0-h, y0+(l/2))
+                #return eveninit
+                return (eveninit[0]+ h*col, eveninit[1] )
+                
+            else:#is odd
+                oddinit = (x0, y0+l)
+                return (oddinit[0]+ h*(col-1), oddinit[1] )
+        
+        
+        if(row <= 2):
+            return above(row, col)
+        else:
+            return below(row-1, col)
+            
+        
+            
+            
+        
+        
         pass
     
     def node_adj_nodes(self):
