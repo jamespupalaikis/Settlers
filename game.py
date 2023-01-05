@@ -15,6 +15,7 @@ import random as rand
 
 class classic_game:
     def __init__(self, players, playernum):
+        #Each player needs a key assigned! dont forget that
         assert(len(players) == playernum)
         self.players = players
         self.playernum = playernum

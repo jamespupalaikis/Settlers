@@ -22,13 +22,6 @@ import board as bd
 #TODO
 
 
-# need to fix the sleep timer so that it sleeps while the proper turn instructions are shown
-# polish win screen/add replay button
-
-
-#AMBITIOUS GOALS: 
-# implement animations (this might be a disaster)
-# implement full games
 
 
 
@@ -43,6 +36,12 @@ def init(data):
     data.color_map = {1: 'red', 2: 'purple', 3: 'light blue', 4: 'magenta'}
     data.board.roads.add_road(((1,1),(1,2)), 3)
     data.board.roads.add_road(((4,5),(5,4)), 4)
+    
+    data.board.settle((3,4), 2)
+    
+    data.board.settle((4,7), 1)
+    data.board.upgrade_to_city((4,7))
+    
     pass
 
 ########Draw board Fns############################################################
@@ -81,7 +80,11 @@ def redraw_all(canvas, data):
     draw.draw_board_area(canvas, data)
     draw.draw_roads(data.board.roads, canvas, data)
     canvas.create_oval(x-r, y-r, x+r, y+r, fill = 'red')
-    pass
+    
+    for node in data.board.settled:
+        #(node)
+        draw.draw_settlement(node, canvas, data)
+        pass
         
 
 ##############

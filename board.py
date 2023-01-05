@@ -136,7 +136,7 @@ class hex_spot(board_spot):
 class node_spot(board_spot):
     def __init__(self, loc):
         self.loc = loc
-        self.settled = [] #False
+        self.settled = -1 #False
         self.city = False
         self.l = l
         
@@ -145,8 +145,8 @@ class node_spot(board_spot):
     
     
     def settle_node(self, team):
-        assert(not(self.settled))
-        self.settled.append(team)
+        assert(self.settled == -1)
+        self.settled = team
         
     def build_city(self):
         assert(self.settled)
@@ -315,12 +315,12 @@ class edges():
 class board:
     def __init__(self, mode = 'Classic'):
 
-        
+        self.settled = []
         self.make_hexes()
         self.make_nodes()
         self.roads = edges()
         
-        self.settlements = set()
+        #self.settlements = set()
         self.robber = self.desert
         
         
@@ -411,6 +411,17 @@ class board:
             for col in range(colnum[row]):
                 self.node_list[row][col] = node_spot((row,col))
                 
+    def settle(self,loc, player):
+        #checks for hand reqs come from player level; 
+        #I suppose the checks for location should too
+        node = self.node_list[loc[0]][loc[1]]
+        node.settle_node(player)
+        self.settled.append(node)
+    
+    def upgrade_to_city(self,loc):
+        node = self.node_list[loc[0]][loc[1]] 
+        node.build_city()
+        
         
 
 a = edges()

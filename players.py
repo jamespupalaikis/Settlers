@@ -8,7 +8,8 @@ import board as bd
 
 
 class player:
-    def __init__(self, name='asshole'):
+    def __init__(self, key,name='asshole'):
+        self.key = key
         self.name = name
         self.vp = 0
         self.settlements = []#and cities
@@ -31,6 +32,7 @@ class player:
         
         
     def can_settle(self, spot):
+        #takes spot as a double of coords
         if(not(self.hand[1] and self.hand[2] and self.hand[3] and self.hand[4])):
             return False
         #Check for another settlement there
@@ -51,26 +53,34 @@ class player:
         
         #check that there are no other roads here
         check = board.roads.check_road(spot)
-        ifcheck == -1):
+        if(check == -1):
             return False
             
         #cannot have a road adj to an enemy settled node
-        
+        #TODO 
         pass
         
-    def build_settlement(self, node_to_settle):
-        if(self.can_settle(node_to_settle.loc)):
-            self.settlements.append(node_to_settle)
-            node_to_settle.settle_node(self)
+    def build_settlement(self, loc, board):
+        node = board.node_list[loc[0]][loc[1]]
+        if(self.can_settle(loc)):
+            self.settlements.append(node)
             self.hand[1].pop()
             self.hand[2].pop()
             self.hand[3].pop()
             self.hand[4].pop()
+            board.settle(loc, self.key)
             
             
             
             
     def build_road(self, spot):
         if(self.can_build_road(spot)):
-            
+            #TODO
+            pass
+    
+    def upgrade_settlement(self, spot):
+        if(self.can_build_city(spot)):
+            #TODO
+            pass
+        
         

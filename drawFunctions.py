@@ -75,5 +75,25 @@ def draw_roads(roads, canvas, data):
         tm = roads.check_road(road)
         canvas.create_line(p1[0],p1[1],p2[0],p2[1], fill = data.color_map[tm],
                            width = 9)
+        
+def draw_settlement(node, canvas, data):
+    assert node.settled != -1
+    loc = node.loc
+    x, y = node.placement(loc[0], loc[1])
+    tm = node.settled
+    
+    if(node.city == False):
+    
+        canvas.create_rectangle(x-15, y-15, x + 15, y+15, fill = data.color_map[tm])
+        x1,y1 = x-25, y-15
+        x2,y2 = x + 25, y-15
+        x3,y3 = x, y-30
+        canvas.create_polygon(x1,y1,x2,y2,x3,y3,fill = data.color_map[tm] )
+    else:
+        canvas.create_rectangle(x-25, y-15, x + 25, y+15, fill = data.color_map[tm])
+        canvas.create_rectangle(x-25, y-30, x, y-15, fill = data.color_map[tm])
+        
+    
+    
     
 #print(bd.hex_spot.hex_adj_hex(1, 1))
