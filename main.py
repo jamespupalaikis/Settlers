@@ -39,6 +39,8 @@ def init(data):
     
     data.board.settle((3,4), 2)
     
+    
+    
     data.board.settle((4,7), 1)
     data.board.upgrade_to_city((4,7))
     

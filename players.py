@@ -44,17 +44,22 @@ class player:
             
         pass
     
-    def can_build_road(self, spot, board):
+    def can_build_road(self, spot, board): #Spot comes in as ((x1,y1), (x2,y2))
         #resource check
         if(not(self.hand[2]  and self.hand[4])):
             return False
         
-        #check for an adjacent friendly road
+        #CONDITIONS
+`        #must not be a/
+        #must be adjacent friendly road OR adj friendly civilization on n1 or n2
         
         #check that there are no other roads here
         check = board.roads.check_road(spot)
         if(check == -1):
             return False
+        
+        n1,n2 = spot
+        
             
         #cannot have a road adj to an enemy settled node
         #TODO 

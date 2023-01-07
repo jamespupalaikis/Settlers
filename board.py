@@ -292,14 +292,19 @@ class edges():
         coords = self.order(coords)
         d1 = self.roads[coords[0]]
         d1[coords[1]] = team
-        self.l.append(coords)
+        self.l.append((team, coords))
         return coords
         
     def remove_road(self, coords):
         coords = self.order(coords)
         d1 = self.roads[coords[0]]
-        self.l.remove(coords)
         del d1[coords[1]]
+        for  item in self.l:
+            if(item[1] == coords):
+                self.l.remove(item)
+                break
+        
+        
     
     @staticmethod    
     def placement( coords):
