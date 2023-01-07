@@ -50,16 +50,17 @@ class player:
             return False
         
         #CONDITIONS
-`        #must not be a/
+        #must not be THROugha an adj civ
         #must be adjacent friendly road OR adj friendly civilization on n1 or n2
-        
         #check that there are no other roads here
+        
         check = board.roads.check_road(spot)
         if(check == -1):
             return False
         
         n1,n2 = spot
         
+        if(board)
             
         #cannot have a road adj to an enemy settled node
         #TODO 
