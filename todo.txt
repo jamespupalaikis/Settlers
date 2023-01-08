@@ -1,0 +1,47 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Jan  8 15:04:52 2023
+
+@author: James
+"""
+
+board
+- Implement ports
+
+
+UI comprehension
+- find hex
+- find road
+- find node
+-buttons for settling, playing stuff, etc
+
+Deck
+- Resource card deck population
+- resource card utilization 
+
+Player
+- Tradeins
+- winning? 
+- 
+
+Game 
+ - initial placement
+ - gamestate logic? 
+ - using resouce card effects
+ - longest road
+ - largest army
+ - Winning
+ - automatic rolling, payouts, and robber logic
+ 
+ 
+ Draw
+ - Buttons for stuff
+ -temporary hand standin
+ 
+ 
+ Main
+ - Gamestate logic?
+ 
+ N/A
+ - TRADING this is gonna suck
+ 

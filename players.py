@@ -126,6 +126,9 @@ class player:
             self.hand['wheat'] -= 1
             self.hand['brick'] -= 1
             board.settle(loc, self.key)
+            return True
+        
+        return False
             
             
             
@@ -142,5 +145,7 @@ class player:
         if(self.can_build_city(spot)):
             board.upgrade_to_city(spot)
             pass
-        
+    
+    
+    
         

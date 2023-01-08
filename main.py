@@ -12,6 +12,8 @@ from time import sleep
 import math
 import drawFunctions as draw
 import board as bd
+import game
+import players
 ####################################
 # Programmed in event-based paradigm; 
 # timer_fired updates at 10hz (one refresh every event.timerDelay ms)
@@ -32,7 +34,12 @@ def init(data):
     
     #the fundamental hex edge length
     # data.l = 90
-    data.board = bd.board()
+    playerlist = [players.player(1, 'jim1'),players.player(2, 'jim2'),
+               players.player(3, 'jim3'),players.player(4, 'jim4')]
+    data.game = game.classic_game(playerlist,4)
+    
+    data.board = data.game.board
+    
     data.color_map = {1: 'red', 2: 'purple', 3: 'light blue', 4: 'magenta'}
     data.board.roads.add_road(((1,1),(1,2)), 3)
     data.board.roads.add_road(((4,5),(5,4)), 4)
