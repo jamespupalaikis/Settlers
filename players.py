@@ -31,7 +31,7 @@ class player:
         self.resources.expand(res_to_add)
         
         
-    def can_settle(self, spot):
+    def can_settle(self, spot, board, first = False):#
         #takes spot as a double of coords
         if(not(self.hand[1] and self.hand[2] and self.hand[3] and self.hand[4])):
             return False
@@ -39,6 +39,16 @@ class player:
         #check for NOT an adjacent settled node
         #check for a road connected
         #if road placement is properly enforced this should be all thats needed
+        if(board.node_list[spot[0]][spot[1]].settled != -1):
+            return False
+        
+        adj = bd.node_spot.node_adj_nodes(spot)
+        for adjspot in adj:
+            node = board.node_list[adjspot[0]][adjspot[1]]
+            if(node.settled != -1):
+                return False
+        
+        
         
         
             
@@ -60,7 +70,25 @@ class player:
         
         n1,n2 = spot
         
-        if(board)
+        node1 = board.node_list[n1[0]][n1[1]]      
+        node2 = board.node_list[n2[0]][n2[1]]  
+        
+        if(node1.settled == self.key or node2.settled == self.key):
+            #if adj friendly settlement, can build. 
+            return True
+        
+        for team, road in board.roads.l:
+            if n1 in road or n2 in road:
+                if(team == self.key):
+                    if(n1 in road):#ceck node1 for enemy settlement
+                        return (node1.settled == -1 or node1.settled == self.team)
+                            
+                    elif(n2 in road):
+                        return (node1.settled == -1 or node1.settled == self.team)
+                        
+                    
+        return False
+        #                   
             
         #cannot have a road adj to an enemy settled node
         #TODO 
@@ -79,12 +107,12 @@ class player:
             
             
             
-    def build_road(self, spot):
+    def build_road(self, spot, board):
         if(self.can_build_road(spot)):
             #TODO
             pass
     
-    def upgrade_settlement(self, spot):
+    def upgrade_settlement(self, spot, board):
         if(self.can_build_city(spot)):
             #TODO
             pass

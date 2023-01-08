@@ -202,8 +202,9 @@ class node_spot(board_spot):
         
         pass
     
-    def node_adj_nodes(self):
-        row, col = self.loc
+    @staticmethod
+    def node_adj_nodes(loc):
+        row, col = loc
         colnum = [6,8,10,10,8,6]
         adj = []
         
