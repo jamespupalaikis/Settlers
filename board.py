@@ -249,10 +249,15 @@ class node_spot(board_spot):
     
             
                 
-
-    def node_adj_edges(self):
-        #TODO
-        pass
+    @staticmethod
+    def node_adj_edges(loc):
+        adjedges =[]
+        adjnodes = node_spot.node_adj_nodes(loc)
+        for adjacent in adjnodes:
+            new = edges.order(loc, adjacent)
+            adjedges.append(new)
+            
+        return adjedges
     
 class edges():
     #This will hold ALL the roads in the game. 
@@ -272,7 +277,7 @@ class edges():
         self.l = []
         
     def __repr__(self):
-        return f'The edges object'
+        return 'The edges object'
     
     @staticmethod
     def order(coords):#comes in as ((row1,col1), (row2,col2))
@@ -309,11 +314,15 @@ class edges():
     
     @staticmethod    
     def placement( coords):
-
+        
         p1 = node_spot.placement(coords[0][0], coords[0][1])
         p2 = node_spot.placement(coords[1][0], coords[1][1])
         return p1,p2
-    
+    @staticmethod
+    def edge_adj_edge(loc):
+        #TODO
+        #Use for longest road recursion
+        pass
         
     
 ###########Unified Board################################
@@ -324,7 +333,7 @@ class board:
         self.settled = []
         self.make_hexes()
         self.make_nodes()
-        self.roads = edges()
+        self.roads = edges()#has a self.l list of populated edges
         
         #self.settlements = set()
         self.robber = self.desert
@@ -349,7 +358,7 @@ class board:
     
             excluded = []
             self.hex_list = np.ndarray(shape=(5,5), dtype = board_spot)
-            
+            self.hex_ind = defaultdict(list)#store the hexes according to #
             
             
             colnum = [3,4,5,4,3]
@@ -407,7 +416,9 @@ class board:
                         self.desert = (row,col)
                     
                     #make the hex, add to array
-                    self.hex_list[row][col] = hex_spot((row,col), res,num)
+                    newhex =hex_spot((row,col), res,num)
+                    self.hex_list[row][col] = newhex
+                    self.hex_ind[num].append(newhex)
         
     def make_nodes(self):
         self.node_list = np.ndarray(shape=(6,11), dtype=board_spot)
@@ -417,6 +428,13 @@ class board:
             for col in range(colnum[row]):
                 self.node_list[row][col] = node_spot((row,col))
                 
+    
+    def make_ports(self):
+        #TODO
+        pass
+    
+    
+    
     def settle(self,loc, player):
         #checks for hand reqs come from player level; 
         #I suppose the checks for location should too
@@ -427,9 +445,13 @@ class board:
     def upgrade_to_city(self,loc):
         node = self.node_list[loc[0]][loc[1]] 
         node.build_city()
+    
+    def build_road(self, loc, player):
+        #checks cone from player level
+        self.roads.add_road(loc, player)
         
         
-
+'''
 a = edges()
 a.add_road(((1,1),(1,3)), 3)
 a.add_road(((1,1),(1,2)), 2)
@@ -438,4 +460,4 @@ a.remove_road(((1,1),(1,3)))
 print(a.l)
 
 print(a.roads[(1,1)].keys())
-print(a.check_road(((1,1),(1,3))))
+print(a.check_road(((1,1),(1,3))))'''

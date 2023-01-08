@@ -13,10 +13,13 @@ class player:
         self.name = name
         self.vp = 0
         self.settlements = []#and cities
-        self.hand = [[],[],[],[],[]]#sheep, wheat, wood, stone, brick
+        self.hand = {'sheep': 0, 'wheat':0, 'wood':0, 'stone':0, 'brick':0}
+        #sheep, wheat, wood, stone, brick
         self.knights  = 0
         self.dev_cards = []
         self.roads = []
+        self.ports = {}
+        
         #roads will be tracked on one master list on the board object, like settlements
         #still hold coords of roads, i guess, for can_build_road
         
@@ -33,7 +36,8 @@ class player:
         
     def can_settle(self, spot, board, first = False):#
         #takes spot as a double of coords
-        if(not(self.hand[1] and self.hand[2] and self.hand[3] and self.hand[4])):
+        if(not(self.hand['sheep'] and self.hand['wood'] and self.hand['wheat']
+               and self.hand['brick'])):
             return False
         #Check for another settlement there
         #check for NOT an adjacent settled node
@@ -48,6 +52,12 @@ class player:
             if(node.settled != -1):
                 return False
         
+        adjedges = bd.node_spot.node_adj_edges(spot)
+        for edge in adjedges:
+            if(edge in self.roads):
+                return True
+        return False
+        
         
         
         
@@ -55,8 +65,10 @@ class player:
         pass
     
     def can_build_road(self, spot, board): #Spot comes in as ((x1,y1), (x2,y2))
+    
+
         #resource check
-        if(not(self.hand[2]  and self.hand[4])):
+        if(not(self.hand['wood']  and self.hand['brick'])):
             return False
         
         #CONDITIONS
@@ -94,14 +106,25 @@ class player:
         #TODO 
         pass
         
+    
+    def can_build_city(self,spot, board):
+        if(self.hand['stone'] < 3 or self.hand['wheat']):
+            return False
+        if(self.board.node_list[spot[0]][spot[1]].settled != self.key):
+            return False
+        
+        return True
+    
+    
+    
     def build_settlement(self, loc, board):
         node = board.node_list[loc[0]][loc[1]]
         if(self.can_settle(loc)):
             self.settlements.append(node)
-            self.hand[1].pop()
-            self.hand[2].pop()
-            self.hand[3].pop()
-            self.hand[4].pop()
+            self.hand['sheep'] -= 1
+            self.hand['wood'] -= 1
+            self.hand['wheat'] -= 1
+            self.hand['brick'] -= 1
             board.settle(loc, self.key)
             
             
@@ -109,12 +132,15 @@ class player:
             
     def build_road(self, spot, board):
         if(self.can_build_road(spot)):
-            #TODO
+            self.hand['wood'] -= 1
+            self.hand['brick'] -= 1
+            board.build_road(spot, self.key)
+            self.roads.append(bd.edges.order(spot))
             pass
     
     def upgrade_settlement(self, spot, board):
         if(self.can_build_city(spot)):
-            #TODO
+            board.upgrade_to_city(spot)
             pass
         
         

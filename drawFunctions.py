@@ -70,9 +70,10 @@ def draw_node(_node, canvas, data):
 
 def draw_roads(roads, canvas, data):
     data.color_map
-    for road in roads.l:
+    for tm,road in roads.l:
+        #print('a', road)
         p1,p2 = roads.placement(road)
-        tm = roads.check_road(road)
+        #tm = roads.check_road(road)
         canvas.create_line(p1[0],p1[1],p2[0],p2[1], fill = data.color_map[tm],
                            width = 9)
         
