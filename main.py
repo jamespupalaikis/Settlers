@@ -14,6 +14,7 @@ import drawFunctions as draw
 import board as bd
 import game
 import players
+import UIcomprehension as UI
 ####################################
 # Programmed in event-based paradigm; 
 # timer_fired updates at 10hz (one refresh every event.timerDelay ms)
@@ -22,8 +23,6 @@ import players
 
 
 #TODO
-
-
 
 
 
@@ -65,8 +64,8 @@ def init(data):
 ############################################################################
 #Event update functions#
 def mouse_pressed(event, data):
-    pass
-       
+    loc = (event.x, event.y)
+    print(UI.select_hex(loc)) 
 
 def key_pressed(event, data):
     pass

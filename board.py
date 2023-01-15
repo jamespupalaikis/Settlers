@@ -129,7 +129,10 @@ class hex_spot(board_spot):
                    (row+1, 2*col), (row+1, 2*col+1), (row+1, 2*col+2)]
         return adj
     
-
+    @staticmethod
+    def hex_adj_edge(row,col):
+        #TODO For ui compehend find road
+        pass
 
     
     
