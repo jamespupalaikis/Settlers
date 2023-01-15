@@ -42,7 +42,7 @@ def draw_hex(_hex, canvas, data):
     
     x, y = _hex.placement(loc[0],loc[1])
     h = math.sqrt(3/4)* l
-    
+    #print(h)
     a = (x, y-l)
     b = (x+h, y-l/2)
     c = (x+h, y+l/2)
