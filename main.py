@@ -66,7 +66,7 @@ def init(data):
 def mouse_pressed(event, data):
     loc = (event.x, event.y)
     #print(UI.select_hex(loc)) 
-    (UI.select_node(loc))
+    print(UI.select_road(loc))
 
 def key_pressed(event, data):
     pass

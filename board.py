@@ -223,22 +223,22 @@ class node_spot(board_spot):
         
         if(row == 0):
             if(not isodd(col)):
-                adj.append((2, col+1))
+                adj.append((1, col+1))
         elif(row == 1):
             if(isodd(col)):
                 adj.append((1, col-1))
             else:
-                adj.append((3, col+ 1))
+                adj.append((2, col+ 1))
         elif(row == 2):
             if(isodd(col)):
                 adj.append((1, col-1))
             else:
-                adj.append(3, col)
+                adj.append((3, col))
         elif(row == 3):
             if(isodd(col)):
                 adj.append((4, col-1))
             else:
-                adj.append(2, col)
+                adj.append((2, col))
         elif(row == 4):
             if(isodd(col)):
                 adj.append((5, col-1))
@@ -246,7 +246,7 @@ class node_spot(board_spot):
                 adj.append((3, col+1))
         elif(row == 5):
             if(not isodd(col)):
-                adj.append(4 ,col+1)
+                adj.append((4 ,col+1))
         return adj
     
     

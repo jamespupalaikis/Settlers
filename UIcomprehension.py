@@ -11,8 +11,8 @@ Created on Sun Jan  8 14:00:25 2023
 #besides the drawfunctions. This won't do any drawing
 
 import numpy as np
-from math import floor
-
+import math
+import board as bd
 
 #hex center heights 177,312,447,582,717
 #First 
@@ -64,8 +64,8 @@ def select_hex(mouseloc):
     
     return (r,c)
     
-def select_node(mouseloc):
-    ytol = 45
+def select_node(mouseloc, ytol = 45):
+    #ytol = 45
     xtol = 40#h/2
     x, y = mouseloc
     r,c = -1, -1
@@ -89,8 +89,23 @@ def select_node(mouseloc):
     return (r,c)
  
 
+def closest(mouseloc, adjnodes):
+    best =(1000, None)
+    mousex, mousey = mouseloc
+    for node in adjnodes:
+        spotx, spoty = bd.node_spot.placement(node[0], node[1])
+        dist = math.sqrt((mousex-spotx)**2 + (mousey - spoty)**2)
+        if(dist <= best[0]):
+            best = (dist, node)
+    
+    return best[1]
+
 def select_road(mouseloc):
-    #TODO
-    pass
+    basenode = select_node(mouseloc,100)
+    nr, nc = basenode
+    adj = bd.node_spot.node_adj_nodes((nr, nc))
+    best = closest(mouseloc, adj)
+    return bd.edges.order((best,basenode))
+    #return adj
 
 

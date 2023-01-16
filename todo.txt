@@ -10,9 +10,9 @@ board
 
 
 UI comprehension
-- find hex
-- find road
-- find node
+- find hex $
+- find road 
+- find node $
 -buttons for settling, playing stuff, etc
 
 Deck

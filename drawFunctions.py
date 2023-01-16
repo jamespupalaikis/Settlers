@@ -62,7 +62,7 @@ def draw_hex(_hex, canvas, data):
     numDict[8] = 'red'
     canvas.create_text(x,y,text=_hex.number, fill=numDict[_hex.number], 
                        font="bold")
-    canvas.create_text(x, y+20, text=f"(,{int(x)})")
+    #canvas.create_text(x, y+20, text=f"(,{int(x)})")
     
     
 def draw_node(_node, canvas, data):
