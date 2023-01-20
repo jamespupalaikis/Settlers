@@ -107,5 +107,24 @@ def select_road(mouseloc):
     best = closest(mouseloc, adj)
     return bd.edges.order((best,basenode))
     #return adj
+    
+def buttonpush(mouseloc):
+    return mouseloc
 
+def select_card(mouseloc):
+    #TODO: How u gonna do this breh
+    pass
 
+def select_player(mouseloc):
+    #TODO: Select a player. Put em in the corners. Maybe display hands backwards
+    pass
+
+def select_opp_card(mouseloc):
+    #TODO
+    #maybe make a UI for this idek doesnt need to exist but is fun
+    pass
+
+def select_my_cards(mouseloc):
+    #TODO
+    #This is another shitshow. Gotta work on them sockets or smt idek
+    pass

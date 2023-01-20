@@ -11,7 +11,7 @@ board
 
 UI comprehension
 - find hex $
-- find road 
+- find road $
 - find node $
 -buttons for settling, playing stuff, etc
 
