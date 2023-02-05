@@ -4,15 +4,9 @@ Created on Thu Jan  5 10:02:18 2023
 
 @author: James
 """
+import numpy as np
+a = [[1,2,3],[4,5,6]]
 
-a = -1
-b = 1
-c = 3
-if(a):
-    print('a')
+a = np.array(a)
 
-if(b):
-    print('b')
-
-if(c):
-    print('c')
+print(type(a[0]))

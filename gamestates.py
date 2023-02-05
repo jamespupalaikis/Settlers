@@ -4,6 +4,7 @@ Created on Thu Jan 19 18:37:01 2023
 
 @author: James
 """
+from UIcomprehension import * 
 
 gamestates = {
     'choosing_order':(buttonpush, on_choosing_order),
@@ -28,4 +29,15 @@ gamestates = {
     }
 
 
-def runstate(state, endpoint, )
+def runstate(state, inp, data):
+    ifunc, ofunc  = gamestates[state][0]
+    
+    
+    #output fuinctions should take the datastruct specifically so that it can
+    #implement boardstate and playerstate changes
+    
+    ofunc(ifunc(inp), data)
+    
+    #game state is set in the output function
+    
+    

@@ -113,6 +113,10 @@ def buttonpush(mouseloc):
 
 def select_card(mouseloc):
     #TODO: How u gonna do this breh
+    #https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications
+    #https://www.youtube.com/watch?v=MxZdg2NNr1A
+    #https://websockets.readthedocs.io/en/stable/reference/client.html
+    #https://www.tutorialspoint.com/websockets/websockets_quick_guide.htm
     pass
 
 def select_player(mouseloc):

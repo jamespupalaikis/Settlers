@@ -23,8 +23,13 @@ class deck:
         return self.deck[0]
     
     def populate(self):#Fill up the deck and shuffle it
-        #TODO
-        pass
+    #add knights
+        self.deck.extend(['knight' for _ in range(14)])
+        self.deck.extend(['roadbuild' for _ in range(2)])
+        self.deck.extend(['vp' for _ in range(2)])
+        self.deck.extend(['yearofplenty' for _ in range(2)] )
+        self.deck.extend(['monopoly' for _ in range(2)])
+       
     
     
     
