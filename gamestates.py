@@ -41,3 +41,15 @@ def runstate(state, inp, data):
     #game state is set in the output function
     
     
+    
+    
+    
+def placing_settlement(inp, data):
+    '''Inp is from  select_node, so it will be a row,column
+    the endpoint for this action is postroll_pending'''
+    #TODO: I want these functions to interact ONLY with GAME level functions
+    #Currently its implemented in the heirarchy hex/node->board->player need to add game at that top level
+    #since it has self.turns, self.currentplayer and all that, and use those functions in 
+    #these gamestate transition functions
+    row, col = inp
+    

@@ -16,7 +16,7 @@ UI comprehension
 -buttons for settling, playing stuff, etc
 
 Deck
-- Resource card deck population
+- Resource card deck population $ 
 - resource card utilization 
 
 Player
@@ -44,4 +44,12 @@ Game
  
  N/A
  - TRADING this is gonna suck
+- you definitely need an undo function. Maybe log the last action somehow and map that to
+undo fn dict based on the action? should be pretty easy, as the situation has a lot of guarantees, 
+but shud probably add this last 
  
+ gamestate: 
+ - implement gamestate-action functions to take in an interpreter function's
+ output and modify the game properly. Don't forget to set the end state afterwards!
+ 
+UIcomprehension: 
