@@ -44,7 +44,7 @@ class classic_game:
         rolls = self.get_player_order()
         self.order = [i[1] for i in rolls]
         
-        self.currentplayer = self.order[0]
+        self.currentplayer = self.order[0]#maybe make this a function that gens on request?
         self.turn  = 0 #used to get whose turn it is
         self.state = "wait_place_settlement_0"
     
